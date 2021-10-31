@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -51,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private float currentAcceleration;
     private float lastAcceleration;
     private static int SIGNIFICANT_SHAKE = 2000;
+
+    //Media player
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +226,25 @@ public class MainActivity extends AppCompatActivity {
             startActivity(geoLocationIntent);  //Broadcasting our implicit intent. Let's see who answers the Bat Signal.
             // Wait, that was it?
             // Yep, Android Framework makes it quick and easy to open other Apps.
+            if (getLanguage.equals("Vietnamese")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.vietnamese);
+            } else if (getLanguage.equals("Korean")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.korean);
+            } else if (getLanguage.equals("Russian")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.russian);
+            } else if (getLanguage.equals("Chinese")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.chinese);
+            } else if (getLanguage.equals("Spanish")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.spanish);
+            } else if (getLanguage.equals("French")) {
+                /* enable after language selected */
+                mp = MediaPlayer.create(MainActivity.this, R.raw.french);
+            }
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
