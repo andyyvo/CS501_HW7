@@ -1,5 +1,6 @@
 package com.example.w7_p3;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -192,6 +194,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        disableAccelerometerListening();
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        disableAccelerometerListening();
+        super.onStop();
     }
 
     /* activity intent methods */
