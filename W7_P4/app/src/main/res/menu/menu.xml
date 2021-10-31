@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Play Animation 1"
+        android:id="@+id/PlayAnimation1"
+     />
+    <item
+        android:title="Play Animation 2"
+        android:id="@+id/PlayAnimation2"
+    />
+</menu>
+

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--double size-->
+    <scale
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="2000"
+        android:fromXScale="1"
+        android:fromYScale="1"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="2"
+        android:toYScale="2">
+    </scale>
+
+    <!--Rotate 360 degrees for 3 times and pivot from bottom left corner-->
+    <rotate
+        android:startOffset = "1000"
+        android:duration="1000"
+        android:fromDegrees="0"
+        android:toDegrees="360"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="0%"
+        android:pivotY="100%" />
+    <rotate
+        android:startOffset = "2000"
+        android:duration="1000"
+        android:fromDegrees="0"
+        android:toDegrees="360"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="0%"
+        android:pivotY="100%" />
+    <rotate
+        android:startOffset = "3000"
+        android:duration="1000"
+        android:fromDegrees="0"
+        android:toDegrees="360"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="0%"
+        android:pivotY="100%" />
+
+    <!--    bounce -->
+    <scale
+        android:startOffset = "4000"
+        android:interpolator="@android:anim/bounce_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromXScale="2"
+        android:toXScale="0.5"
+        android:fromYScale="2"
+        android:toYScale="0.5"
+        android:duration="500"/>
+    <scale
+        android:startOffset = "4500"
+        android:interpolator="@android:anim/bounce_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromXScale="0.5"
+        android:toXScale="2"
+        android:fromYScale="0.5"
+        android:toYScale="2"
+        android:duration="500"
+        android:fillAfter = "true" />
+
+    <!--slide down-->
+    <translate
+        android:duration="500"
+        android:fromYDelta="0%p"
+        android:startOffset="5000"
+        android:toYDelta="50%p" />
+
+    <translate
+        android:duration="500"
+        android:fromYDelta="0%p"
+        android:startOffset="5500"
+        android:toYDelta="-50%p" />
+
+    <!--slide left-->
+    <translate
+        android:duration="500"
+        android:fromXDelta="0%p"
+        android:startOffset="6000"
+        android:toXDelta="-50%p" />
+    <translate
+        android:duration="500"
+        android:fromXDelta="0%p"
+        android:startOffset="6500"
+        android:toXDelta="50%p" />
+
+    <!--slide up-->
+    <translate
+        android:duration="500"
+        android:fromYDelta="0%p"
+        android:startOffset="7000"
+        android:toYDelta="-50%p" />
+
+    <translate
+        android:duration="500"
+        android:fromYDelta="0%p"
+        android:startOffset="7500"
+        android:toYDelta="50%p"
+        android:fillBefore="true" />
+</set>
