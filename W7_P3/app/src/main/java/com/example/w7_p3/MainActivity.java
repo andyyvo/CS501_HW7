@@ -4,9 +4,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,23 +26,36 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView lvLanguages;
-    final String[] languages = {"Vietnamese","Korean","Russian","Chinese","Spanish","French"};
+    private String TAG = "BOSTON";
 
+    //language variables
+    private ListView lvLanguages;
+    private final String[] languages = {"Vietnamese","Korean","Russian","Chinese","Spanish","French"};
+    private String getLanguage;
+
+    // speech to text
+    static final int SPEECH_TO_TEXT = 9999; // speech to text flag to track result of intent
     private EditText edtSpeechToText;
     private Button btnClearText;
     private Button btnSpeak;
 
-    private String getLanguage;
+    // vacation variables
+    private final String[] locations = {"Da+Nang+Vietnam", "Busan+South Korea", "St+Petersburg+Russia", "Wuhan+China", "Madrid+Spain", "Cannes+France"};
+    private String chooseVacation;
 
-    static final int SPEECH_TO_TEXT = 9999; // speech to text flag to track result of intent
-
-    final String[] locations = {};
+    // accelerometer shake variables
+    private float lastX, lastY, lastZ;  //old coordinate positions from accelerometer, needed to calculate delta.
+    private float acceleration;
+    private float currentAcceleration;
+    private float lastAcceleration;
+    private static int SIGNIFICANT_SHAKE = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        disableAccelerometerListening();
 
         /* boiler plate stuffs :) */
         lvLanguages = (ListView) findViewById(R.id.lvLanguages);
@@ -60,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
         lvLanguages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // set accelerometer acceleration values
+                acceleration = 0.00f;                                         //Initializing Acceleration data.
+                currentAcceleration = SensorManager.GRAVITY_EARTH;            //We live on Earth.
+                lastAcceleration = SensorManager.GRAVITY_EARTH;               //Ctrl-Click to see where else we could use our phone.
+                enableAccelerometerListening();                               //enable the accelerometer to start listening
+
                 // get user input
                 getLanguage = String.valueOf(parent.getItemAtPosition(position));
 
@@ -68,31 +94,49 @@ public class MainActivity extends AppCompatActivity {
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[0];
                 } else if (getLanguage.equals("Korean")) {
                     /* enable after language selected */
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[1];
                 } else if (getLanguage.equals("Russian")) {
                     /* enable after language selected */
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[2];
                 } else if (getLanguage.equals("Chinese")) {
                     /* enable after language selected */
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[3];
                 } else if (getLanguage.equals("Spanish")) {
                     /* enable after language selected */
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[4];
                 } else if (getLanguage.equals("French")) {
                     /* enable after language selected */
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+
+                    /* selecting location */
+                    chooseVacation = locations[5];
                 }
             }
         });
@@ -150,6 +194,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /* activity intent methods */
+
+    private void vacation() {
+        //"Vanilla flavored" Implicit Intent to send a location to an App, typically some mapping app.
+        //But it really depends on who's listening.  It doesn't have to be a map that consumes
+        //our intent!
+
+        try {
+            //the geoLocationIntent URI doesn't like spaces...
+            Intent geoLocationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + chooseVacation));  //A URI is just a consistent way of identifying a resource.
+            // A URL is an example of a URI!
+            startActivity(geoLocationIntent);  //Broadcasting our implicit intent. Let's see who answers the Bat Signal.
+            // Wait, that was it?
+            // Yep, Android Framework makes it quick and easy to open other Apps.
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -169,4 +232,79 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+
+    /* accelerometer methods */
+
+    // enable listening for accelerometer events
+    private void enableAccelerometerListening() {
+        // The Activity has a SensorManager Reference.
+        // This is how we get the reference to the device's SensorManager.
+        SensorManager sensorManager =
+                (SensorManager) this.getSystemService(
+                        Context.SENSOR_SERVICE);    //The last parm specifies the type of Sensor we want to monitor
+
+
+        //Now that we have a Sensor Handle, let's start "listening" for movement (accelerometer).
+        //3 parms, The Listener, Sensor Type (accelerometer), and Sampling Frequency.
+        sensorManager.registerListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);   //don't set this too high, otw you will kill user's battery.
+    }
+
+    // disable listening for accelerometer events
+    private void disableAccelerometerListening() {
+
+        //Disabling Sensor Event Listener is two step process.
+        //1. Retrieve SensorManager Reference from the activity.
+        //2. call unregisterListener to stop listening for sensor events
+        //THis will prevent interruptions of other Apps and save battery.
+
+        // get the SensorManager
+        SensorManager sensorManager =
+                (SensorManager) this.getSystemService(
+                        Context.SENSOR_SERVICE);
+
+        // stop listening for accelerometer events
+        sensorManager.unregisterListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+    }
+
+    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+            // required to implement sensorEventListener()
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            // get x, y, and z values for the SensorEvent
+            //each time the event fires, we have access to three dimensions.
+            //compares these values to previous values to determine how "fast"
+            // the device was shaken.
+            //Ref: http://developer.android.com/reference/android/hardware/SensorEvent.html
+
+            float x = sensorEvent.values[0];   //obtaining the latest sensor data.
+            float y = sensorEvent.values[1];   //sort of ugly, but this is how data is captured.
+            float z = sensorEvent.values[2];
+
+            // save previous acceleration value
+            lastAcceleration = currentAcceleration;
+
+            // calculate the current acceleration
+            currentAcceleration = x * x + y * y + z * z;   //This is a simplified calculation, to be real we would need time and a square root.
+
+            // calculate the change in acceleration        //Also simplified, but good enough to determine random shaking.
+            acceleration = currentAcceleration *  (currentAcceleration - lastAcceleration);
+
+            /* open maps with geo url for vacation spot */
+            if (acceleration > SIGNIFICANT_SHAKE) {
+                vacation();
+            }
+
+            lastX = x;
+            lastY = y;
+            lastZ = z;
+        }
+    };
 }
