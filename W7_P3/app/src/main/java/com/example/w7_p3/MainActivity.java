@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ListView lvLanguages;
-    final String[] languages = {"Vietnamese","Korean","Russian","Chinese"};
+    final String[] languages = {"Vietnamese","Korean","Russian","Chinese","Spanish","French"};
 
     private EditText edtSpeechToText;
     private Button btnClearText;
@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private String getLanguage;
 
     static final int SPEECH_TO_TEXT = 9999; // speech to text flag to track result of intent
+
+    final String[] locations = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,16 @@ public class MainActivity extends AppCompatActivity {
                     edtSpeechToText.setEnabled(true);
                     btnClearText.setEnabled(true);
                     btnSpeak.setEnabled(true);
+                } else if (getLanguage.equals("Spanish")) {
+                    /* enable after language selected */
+                    edtSpeechToText.setEnabled(true);
+                    btnClearText.setEnabled(true);
+                    btnSpeak.setEnabled(true);
+                } else if (getLanguage.equals("French")) {
+                    /* enable after language selected */
+                    edtSpeechToText.setEnabled(true);
+                    btnClearText.setEnabled(true);
+                    btnSpeak.setEnabled(true);
                 }
             }
         });
@@ -108,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (getLanguage.equals("Russian")) {
                     newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru-RU");
                 } else if (getLanguage.equals("Chinese")) {
+                    // mandarin
                     newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "zh");
                     newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "zh");
                     newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "zh");
@@ -115,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
                     newIntent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE,"zh");
                     newIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "zh");
                     newIntent.putExtra(RecognizerIntent.EXTRA_RESULTS, "zh");
+                } else if (getLanguage.equals("Spanish")) {
+                    newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES");
+                } else if (getLanguage.equals("French")) {
+                    newIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "fr-FR");
                 }
 
                 // friendly prompt message
