@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private float acceleration;
     private float currentAcceleration;
     private float lastAcceleration;
-    private static int SIGNIFICANT_SHAKE = 2000;
+    private static int SIGNIFICANT_SHAKE = 5000;
 
     //Media player
     MediaPlayer mp;
@@ -222,10 +222,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             //the geoLocationIntent URI doesn't like spaces...
             Intent geoLocationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + chooseVacation));  //A URI is just a consistent way of identifying a resource.
-            // A URL is an example of a URI!
-            startActivity(geoLocationIntent);  //Broadcasting our implicit intent. Let's see who answers the Bat Signal.
-            // Wait, that was it?
-            // Yep, Android Framework makes it quick and easy to open other Apps.
+
             if (getLanguage.equals("Vietnamese")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.vietnamese);
@@ -245,6 +242,11 @@ public class MainActivity extends AppCompatActivity {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.french);
             }
+
+            // A URL is an example of a URI!
+            startActivity(geoLocationIntent);  //Broadcasting our implicit intent. Let's see who answers the Bat Signal.
+            // Wait, that was it?
+            // Yep, Android Framework makes it quick and easy to open other Apps.
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
