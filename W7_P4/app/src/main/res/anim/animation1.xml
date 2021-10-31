@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- fade to 50% -->
+    <alpha
+        android:duration="5000"
+        android:fromAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="0.5" />
+
+    <!-- Rotate counterclockwise 2 times and pivot from center -->
+    <rotate
+        android:startOffset ="1000"
+        android:duration="1000"
+        android:fromDegrees="360"
+        android:toDegrees="0"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        />
+    <rotate
+        android:startOffset ="2000"
+        android:duration="1000"
+        android:fromDegrees="360"
+        android:toDegrees="0"
+        android:interpolator="@android:anim/cycle_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        />
+
+    <!--slide down and back up-->
+    <translate
+        android:startOffset ="6000"
+        android:duration="2000"
+        android:fromYDelta="0%p"
+        android:toYDelta="50%p" />
+
+    <translate
+        android:startOffset ="8000"
+        android:duration="2000"
+        android:fromYDelta="0%p"
+        android:toYDelta="-50%p" />
+
+
+
+</set>
