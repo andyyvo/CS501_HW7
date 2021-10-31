@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private float acceleration;
     private float currentAcceleration;
     private float lastAcceleration;
-    private static int SIGNIFICANT_SHAKE = 5000;
+    private static int SIGNIFICANT_SHAKE = 20000;
 
     //Media player
     MediaPlayer mp;
@@ -226,21 +226,27 @@ public class MainActivity extends AppCompatActivity {
             if (getLanguage.equals("Vietnamese")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.vietnamese);
+                mp.start();
             } else if (getLanguage.equals("Korean")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.korean);
+                mp.start();
             } else if (getLanguage.equals("Russian")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.russian);
+                mp.start();
             } else if (getLanguage.equals("Chinese")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.chinese);
+                mp.start();
             } else if (getLanguage.equals("Spanish")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.spanish);
+                mp.start();
             } else if (getLanguage.equals("French")) {
                 /* enable after language selected */
                 mp = MediaPlayer.create(MainActivity.this, R.raw.french);
+                mp.start();
             }
 
             // A URL is an example of a URI!
