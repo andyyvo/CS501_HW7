@@ -1,0 +1,24 @@
+Chenges made in MainActivity class
+
+public void showFrag1() { //initial code didn't accounted for case f1 == null; ft.show(f1) would crash if f1 no longer exists
+        FragmentTransaction ft = fm.beginTransaction ();  //Create a reference to a fragment transaction.
+        ft.replace(R.id.FragLayout, f1);
+        ft.commit ();
+
+
+
+    }
+
+    public void showFrag2() { 
+        FragmentTransaction ft = fm.beginTransaction ();  //Create a reference to a fragment transaction and start the transaction.
+        ft.replace(R.id.FragLayout, f2);
+        ft.commit();
+
+    }
+
+
+    public void showFrag3() { //if all f1,f2,f3 were null, detach()/attach() wouldn't work as these fragments no longer managed by fragment manager and we can't call on them
+        FragmentTransaction ft = fm.beginTransaction ();
+        ft.replace(R.id.FragLayout, f3);
+        ft.commit();
+//
